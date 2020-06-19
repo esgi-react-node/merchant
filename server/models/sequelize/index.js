@@ -6,8 +6,8 @@ const Credential = require('./Credential');
 
 sequelize
   .sync({ alter: true })
-  .then((result) => console.log("Sync OK"))
-  .catch((result) => console.error("Sync KO"));
+  .then((result) => console.log("Sequelize models synced"))
+  .catch((result) => console.error("Error while syncing models"));
 
 module.exports = {
   sequelize,
