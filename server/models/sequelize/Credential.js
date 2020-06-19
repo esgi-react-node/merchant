@@ -2,23 +2,23 @@ const sequelize = require("../../lib/sequelize");
 const { DataTypes, Model } = require("sequelize");
 
 // Generation du model
-class Article extends Model {}
-Article.init(
+class Credential extends Model {}
+Credential.init(
   {
-    title: {
+    key: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    price: {
-      type: DataTypes.FLOAT,
-      allowNull: false
+    value: {
+      type: DataTypes.STRING,
+      allowNull: false,
     }
   },
   {
     sequelize,
-    modelName: "Article",
+    modelName: "Credential",
     paranoid: true,
   }
 );
 
-module.exports = Article;
+module.exports = Credential;
