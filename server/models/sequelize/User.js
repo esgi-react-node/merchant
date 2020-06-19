@@ -40,11 +40,6 @@ User.init(
   }
 );
 
-// ONE User TO MANY Articles
-User.hasMany(Article); // User.articles
-// MANY Articles TO ONE User
-Article.belongsTo(User); // Article.user
-
 User.hasMany(Address);
 Address.belongsTo(User);
 

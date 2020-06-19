@@ -3,6 +3,7 @@ const User = require("../models/sequelize/User");
 const { ValidationError, Op } = require("sequelize");
 const verifyToken = require("../middlewares/verifyToken");
 const { Article } = require("../models/sequelize");
+const handleValidationError = require("../helpers/handleValidationError");
 const router = express.Router();
 
 // CGET
@@ -41,17 +42,7 @@ router.put("/:id", (req, res) => {
       nbUpdated ? res.json(result[0]) : res.sendStatus(404)
     )
     .catch((error) => {
-      if (error instanceof ValidationError) {
-        console.log(error.errors);
-        const errors = error.errors.reduce((acc, item) => {
-          acc[item.path] = [...(acc[item.path] || []), item.message];
-          return acc;
-        }, {});
-        res.status(400).json(errors);
-      } else {
-        console.log(error);
-        res.sendStatus(500);
-      }
+      handleValidationError(res, error);
     });
 });
 
