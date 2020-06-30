@@ -1,11 +1,13 @@
 import React from "react";
-import OrderPage from "./components/OrderPage";
+import Order from "./components/Order";
+import Transaction from "./components/Transaction";
 
 function App() {
 
   return (
     <div className="App">
-      <OrderPage></OrderPage>
+      <Order></Order>
+      <Transaction></Transaction>
     </div>
   );
 }

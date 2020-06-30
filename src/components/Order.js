@@ -52,32 +52,33 @@ const removeProduct = (cart, setCart, product) => {
 }
 
 const sendTransaction = (cart, currency) => {
-    fetch('http://api-paiement/transaction', {
+    fetch('http://api-merchant/transaction', {
         method: "POST",
         headers: {
-            Authorization: "Bearer " + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)
+            Authorization: "Bearer " + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`),
+            ContentType: 'application/json'
         },
         body: JSON.stringify({
-            cart: cart,
-            currency: currency,
-            consumer: {
-                shipping_address: {
-                    fullname: "John Doe",
-                    address: "9 out of no where",
-                    zipcode: "00000",
-                    country: "FR"
-                },
-                billing_address: {
-                    fullname: "John Doe",
-                    address: "9 out of no where",
-                    zipcode: "00000",
-                    country: "FR"
-                }
+            "customerId": "1",
+            "tag": "orderId: 12341234",
+            "cart": cart.products,
+            "amount": cart.total * 100,
+            "currency": currency,
+            "billing": {
+              "fullName": "Marcel Patoulachi",
+              "address": "place de la tour Eiffel",
+              "town": "Paris",
+              "zip": "75001",
+              "country": "France"
             },
-            metadata: {
-                consumer_id: 1,
-                order_id: Date.now()
-            }
+            "shipping": {
+              "fullName": "Marcel Patoulachi",
+              "address": "place de la tour Eiffel",
+              "town": "Paris",
+              "zip": "75001",
+              "country": "France"
+            },
+            "merchantId": 1
         })
     })
 }
@@ -86,13 +87,15 @@ const handleCurrency = (event, setCurrency) => {
     setCurrency(event.currentTarget.value)
 }
 
-const OrderPage = () => {
+const Order = () => {
     const [cart, setCart] = useState({products: [], total: 0});
     const [currency, setCurrency] = useState("EUR");
     const currencyIcon = currency === "EUR" ? '€' : '$';
     
     return (
-        <>
+        <div>
+            <h1>Commande</h1>
+
             <select defaultValue="EUR" onChange={(event) => handleCurrency(event, setCurrency)}>
                 <option value="EUR">EUR</option>
                 <option value="USD">USD</option>
@@ -147,8 +150,8 @@ const OrderPage = () => {
             {cart.total} {currencyIcon}
 
             <button onClick={() => sendTransaction(cart, currency)}>Valider panier</button>
-        </>
+        </div>
     )
 }
 
-export default OrderPage;
+export default Order;
