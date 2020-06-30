@@ -1,9 +1,6 @@
 const sequelize = require("../../lib/sequelize");
 const { DataTypes, Model } = require("sequelize");
 const bcrypt = require("bcryptjs");
-const Article = require("./Article");
-const denormalize = require("./hooks/denormalizationUser");
-const Address = require("./Address");
 
 // Generation du model
 class User extends Model {}
@@ -40,22 +37,9 @@ User.init(
   }
 );
 
-User.hasMany(Address);
-Address.belongsTo(User);
-
 User.addHook("beforeCreate", async (user, options) => {
   const salt = await bcrypt.genSalt();
   user.password = await bcrypt.hash(user.password, salt);
-});
-
-User.addHook("afterCreate", (user) => {
-  denormalize(User, user.id, "create");
-});
-User.addHook("afterUpdate", (user) => {
-  denormalize(User, user.id, "update");
-});
-User.addHook("afterDestroy", (user) => {
-  denormalize(User, user.id, "delete");
 });
 
 module.exports = User;

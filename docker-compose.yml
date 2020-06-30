@@ -1,5 +1,10 @@
 version: "3.4"
 
+networks:
+  node-react:
+    external:
+      name: node_react
+
 services:
   mongo:
     image: mongo
@@ -12,28 +17,32 @@ services:
       - ./SampleCollections:/usr/local/sampleCollections
     working_dir: /usr/local/sampleCollections
 
-  db:
+  merchant-db:
     image: postgres
     environment:
-      - POSTGRES_DB=api
+      - POSTGRES_DB=merchant
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=password
     volumes:
       - ./db-data:/var/lib/postgresql/data:rw
     ports:
-      - "5432:5432"
+      - "5433:5432"
+    networks:
+      - node-react
 
-  adminer:
+  merchant-adminer:
     image: adminer
     depends_on:
-      - db
+      - merchant-db
     environment:
       ADMINER_DEFAULT_DB_DRIVER: pgsql
       ADMINER_DEFAULT_DB_HOST: db
-      ADMINER_DEFAULT_DB_NAME: api
+      ADMINER_DEFAULT_DB_NAME: merchant
       ADMINER_PLUGINS: tables-filter tinymce
     ports:
-      - 8080:8080
+      - 8081:8080
+    networks:
+      - node-react
 
   mongo-express:
     image: mongo-express
@@ -45,7 +54,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
 
-  server:
+  merchant-api:
     image: node:alpine
     volumes:
       - "./server:/home/node/app:rw,consistent"
@@ -54,13 +63,15 @@ services:
       MONGODB_USER: "root"
       MONGODB_PASS: "password"
       MONGODB_DBNAME: "SampleCollections"
-      DATABASE_URL: "postgres://root:password@db/api"
+      DATABASE_URL: "postgres://root:password@merchant-db/merchant"
       JWT_SECRET: "MyBestSecret"
     depends_on:
-      - db
+      - merchant-db
     command: "npm start"
     ports:
-      - 127.0.0.1:3000:3000
+      - 127.0.0.1:3004:3000
+    networks:
+      - node-react
 
   client:
     build: "./client"
@@ -72,6 +83,8 @@ services:
     stdin_open: true
     ports:
       - 127.0.0.1:3001:3000
+    networks:
+      - node-react
 
 volumes:
   db-data: {}

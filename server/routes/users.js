@@ -2,7 +2,6 @@ const express = require("express");
 const User = require("../models/sequelize/User");
 const { ValidationError, Op } = require("sequelize");
 const verifyToken = require("../middlewares/verifyToken");
-const { Article } = require("../models/sequelize");
 const handleValidationError = require("../helpers/handleValidationError");
 const router = express.Router();
 
@@ -16,13 +15,7 @@ router.get("/", (req, res) => {
 
   User.findAll({
     where: conditions,
-    paranoid: false,
-    include: [
-      {
-        model: Article,
-        where: articleConditions,
-      },
-    ],
+    paranoid: false
   })
     .then((data) => res.json(data))
     .catch((err) => res.sendStatus(500));

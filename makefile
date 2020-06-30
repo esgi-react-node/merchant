@@ -1,4 +1,4 @@
 start:
-	docker-compose up -d db server client adminer
+	docker-compose up -d merchant-db merchant-api merchant-adminer
 stop:
-	docker-compose down
+	docker-compose stop
