@@ -1,0 +1,32 @@
+POST http://localhost:3004/orders
+Content-Type: application/json
+
+{
+  "amount": 1300,
+  "currency": "EUR",
+  "cart": {
+    "banane": 300,
+    "tomate": 600
+  },
+  "billing": {
+    "fullName": "Marcel Patoulachi",
+    "address": "place de la tour Eiffel",
+    "town": "Paris",
+    "zip": "75001",
+    "country": "France"
+  },
+  "shipping": {
+    "fullName": "Marcel Patoulachi",
+    "address": "place de la tour Eiffel",
+    "town": "Paris",
+    "zip": "75001",
+    "country": "France"
+  },
+  "UserId": 1
+}
+
+###
+GET http://localhost:3004/orders
+
+###
+GET http://localhost:3004/orders/13
