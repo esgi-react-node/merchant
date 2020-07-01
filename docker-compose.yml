@@ -35,9 +35,7 @@ services:
     depends_on:
       - merchant-db
     environment:
-      ADMINER_DEFAULT_DB_DRIVER: pgsql
-      ADMINER_DEFAULT_DB_HOST: db
-      ADMINER_DEFAULT_DB_NAME: merchant
+      ADMINER_DEFAULT_SERVER: merchant-db
       ADMINER_PLUGINS: tables-filter tinymce
     ports:
       - 8081:8080
