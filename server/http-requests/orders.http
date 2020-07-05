@@ -1,4 +1,5 @@
 POST http://localhost:3004/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZha2VAZW1haWwuZmFrZSIsImlhdCI6MTU5Mzk4MDk2OSwiZXhwIjoxNTkzOTg0NTY5fQ.8pGjAExqp3oIsr6IraQpENMUqI4-Q_2PFh8s0nCub6k
 Content-Type: application/json
 
 {
@@ -21,12 +22,26 @@ Content-Type: application/json
     "town": "Paris",
     "zip": "75001",
     "country": "France"
-  },
-  "UserId": 1
+  }
 }
 
 ###
 GET http://localhost:3004/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZha2VAZW1haWwuZmFrZSIsImlhdCI6MTU5Mzc4Njc0MCwiZXhwIjoxNTkzNzkwMzQwfQ.zwIHcG-crLDCRP47uW91sxkGbGh4AJgG2W-4NZZnVts
 
 ###
-GET http://localhost:3004/orders/13
+GET http://localhost:3004/orders/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZha2UyQGVtYWlsLmZha2UiLCJpYXQiOjE1OTM3ODcxMzUsImV4cCI6MTU5Mzc5MDczNX0.Ga4p7ZREt-L2dOXHscL7zpaQ5RWplbiU5S-0oi0hdIo
+
+###
+POST http://localhost:3004/orders/3/refund
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZha2VAZW1haWwuZmFrZSIsImlhdCI6MTU5Mzc5MTI1MCwiZXhwIjoxNTkzNzk0ODUwfQ.08CnxCibv1cHy1pbHEOTrXcZJpr_E6t8x4B54vPKURI
+Content-Type: application/json
+
+{
+  "amount": 300
+}
+
+###
+POST http://localhost:3004/orders/confirm/45
+Content-Type: application/json

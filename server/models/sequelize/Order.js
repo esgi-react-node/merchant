@@ -4,7 +4,11 @@ const User = require('./User');
 const Address = require('./Address');
 
 // Generation du model
-class Order extends Model {}
+class Order extends Model {
+  isOwner(user) {
+    return this.UserId === user.id
+  }
+}
 Order.init(
   {
     amount: {
@@ -23,6 +27,9 @@ Order.init(
     currency: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    transactionId: {
+      type: DataTypes.INTEGER
     }
   },
   {

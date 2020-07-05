@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/sequelize/User");
 const bcrypt = require("bcryptjs");
+const handleValidationError = require("../helpers/handleValidationError");
 
 // POST
 router.post("/login_check", (req, res) => {
@@ -43,18 +44,7 @@ router.post("/login_check", (req, res) => {
 router.post("/users", (req, res) => {
   User.create(req.body)
     .then((data) => res.status(201).json(data))
-    .catch((error) => {
-      if (error instanceof ValidationError) {
-        console.log(error.errors);
-        const errors = error.errors.reduce((acc, item) => {
-          acc[item.path] = [...(acc[item.path] || []), item.message];
-          return acc;
-        }, {});
-        res.status(400).json(errors);
-      } else {
-        res.sendStatus(500);
-      }
-    });
+    .catch(err => handleValidationError(res, err));
 });
 
 module.exports = router;
