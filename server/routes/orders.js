@@ -108,4 +108,12 @@ router.post("/confirm/:id", async (req, res) => {
     .catch(err => res.sendStatus(500));
 })
 
+router.post("/cancel/:id", async (req, res) => {
+  const order = await Order.findByPk(req.params.id);
+  order.status = 'cancel';
+  return order.save()
+    .then(order => res.sendStatus(200))
+    .catch(err => res.sendStatus(500));
+})
+
 module.exports = router;

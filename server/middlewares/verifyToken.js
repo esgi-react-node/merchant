@@ -4,6 +4,7 @@ const { User } = require("../models/sequelize");
 const excludedRoutes = [
   '/favicon.ico',
   new RegExp('\/orders\/confirm\/[0-9]{1,}'),
+  new RegExp('\/orders\/cancel\/[0-9]{1,}'),
 ];
 
 const verifyToken = (req, res, next) => {
