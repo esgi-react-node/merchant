@@ -15,6 +15,11 @@ Order.init(
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    refund: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    },
     cart: {
       type: DataTypes.JSON,
       allowNull: false

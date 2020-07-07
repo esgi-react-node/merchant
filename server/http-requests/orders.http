@@ -1,5 +1,5 @@
 POST http://localhost:3004/orders
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZha2VAZW1haWwuZmFrZSIsImlhdCI6MTU5Mzk4MDk2OSwiZXhwIjoxNTkzOTg0NTY5fQ.8pGjAExqp3oIsr6IraQpENMUqI4-Q_2PFh8s0nCub6k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZha2UyQGVtYWlsLmZha2UiLCJpYXQiOjE1OTQxNTMyMDIsImV4cCI6MTU5NDE1NjgwMn0.gnsduYIRjuIvDMNYxVW3FLAVV-epz0Us5rNa0LHO3Do
 Content-Type: application/json
 
 {
@@ -34,12 +34,12 @@ GET http://localhost:3004/orders/3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZha2UyQGVtYWlsLmZha2UiLCJpYXQiOjE1OTM3ODcxMzUsImV4cCI6MTU5Mzc5MDczNX0.Ga4p7ZREt-L2dOXHscL7zpaQ5RWplbiU5S-0oi0hdIo
 
 ###
-POST http://localhost:3004/orders/3/refund
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZha2VAZW1haWwuZmFrZSIsImlhdCI6MTU5Mzc5MTI1MCwiZXhwIjoxNTkzNzk0ODUwfQ.08CnxCibv1cHy1pbHEOTrXcZJpr_E6t8x4B54vPKURI
+POST http://localhost:3004/orders/4/refund
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZha2UyQGVtYWlsLmZha2UiLCJpYXQiOjE1OTQxNTMyMDIsImV4cCI6MTU5NDE1NjgwMn0.gnsduYIRjuIvDMNYxVW3FLAVV-epz0Us5rNa0LHO3Do
 Content-Type: application/json
 
 {
-  "amount": 300
+  "amount": 1300
 }
 
 ###

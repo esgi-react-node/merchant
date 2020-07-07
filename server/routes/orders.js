@@ -93,7 +93,12 @@ router.post("/:id/refund", async (req, res) => {
   if (!req.user.isAdmin()) { return res.sendStatus(403) }
   const order = await Order.findByPk(req.params.id)
   return PaymentService.refund(order, req.body.amount)
-    .then(refund => res.json(refund))
+    .then(async refund => {
+      order.refund += refund.data.amount
+      if (order.refund >= order.amount) { order.status = "refund" }
+      await order.save()
+      res.json(refund.data)
+    })
     .catch(err => {
       console.error(err);
       return res.status(500).json(err);

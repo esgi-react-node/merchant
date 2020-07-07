@@ -26,7 +26,7 @@ class PaymentService {
 
   static async refund(order, amount) {
     const options = await this._getOptions();
-    return axios.post(`http://server:3000/transactions/${order.transactionId}`, {
+    return axios.post(`http://server:3000/transactions/${order.transactionId}/refund`, {
       amount
     }, options);
   }
