@@ -6,17 +6,6 @@ networks:
       name: node_react
 
 services:
-  mongo:
-    image: mongo
-    ports:
-      - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
-    volumes:
-      - ./SampleCollections:/usr/local/sampleCollections
-    working_dir: /usr/local/sampleCollections
-
   merchant-db:
     image: postgres
     environment:
@@ -42,16 +31,6 @@ services:
     networks:
       - node-react
 
-  mongo-express:
-    image: mongo-express
-    depends_on:
-      - mongo
-    ports:
-      - 127.0.0.1:8088:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: password
-
   merchant-api:
     image: node:alpine
     volumes:
@@ -71,16 +50,18 @@ services:
     networks:
       - node-react
 
-  client:
+  merchant-client:
     build: "./client"
     volumes:
       - "./client:/home/node/app"
     working_dir: "/home/node/app"
     command: "yarn start"
+    depends_on:
+      - merchant-api
     tty: true
     stdin_open: true
     ports:
-      - 127.0.0.1:3001:3000
+      - 127.0.0.1:3002:3000
     networks:
       - node-react
 
