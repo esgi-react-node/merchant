@@ -51,11 +51,11 @@ services:
       - node-react
 
   merchant-client:
-    build: "./client"
+    image: node:alpine
     volumes:
       - "./client:/home/node/app"
     working_dir: "/home/node/app"
-    command: "yarn start"
+    command: "npm start"
     depends_on:
       - merchant-api
     tty: true
