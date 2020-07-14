@@ -3,3 +3,5 @@ start:
 
 stop:
 	docker-compose stop
+fixture:
+	docker-compose exec merchant-api node fixture/fixtures.js
