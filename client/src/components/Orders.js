@@ -43,7 +43,6 @@ export const Orders = () => {
 
     }
 
-    console.log(orders);
     return (
         <div className="container">
             <h1>Transactions</h1>
