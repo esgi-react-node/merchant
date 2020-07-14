@@ -32,12 +32,7 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'user'
-    },
-    confirmed: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
+    }
   },
   {
     sequelize,
