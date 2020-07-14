@@ -1,93 +1,70 @@
 import React, { useState } from "react";
 import { useUserContext } from '../contexts/User';
+import { addOrder } from "../api/orders";
+import { useHistory } from "react-router-dom";
 
 export const Order = () => {
-    const [cart, setCart] = useState({products: {}, total: 0});
-    const{ user } = useUserContext();
+    const [cart, setCart] = useState({products: [], total: 0});
+    const { user } = useUserContext();
+    const history = useHistory();
 
     const products = [
         {
             "id": 1,
-            "name": "Coca",
+            "label": "Coca",
             "price": 2
         },
         {
             "id": 2,
-            "name": "Pâtes",
+            "label": "Pâtes",
             "price": 7
         },
         {
             "id": 3,
-            "name": "Panna Cotta",
+            "label": "Panna Cotta",
             "price": 4
         }
     ];
 
     const addProduct = (cart, setCart, product) => {
-        setCart({
-            products: {
-                ...cart.products,
-                [product.name]: (cart.products[product.name] ?? 0) + 1
-            },
-            total: cart.total + product.price
-        });
+        const foundProduct = cart.products.find(productCart => productCart.label === product.label)
+    
+        if (foundProduct) {
+            foundProduct.quantity += 1
+            const newTotal = cart.total + foundProduct.price
+            setCart({products: [...cart.products], total: newTotal})
+        } else {
+            const newTotal = cart.total + product.price
+            setCart({products: [...cart.products, {...product, quantity: 1}], total: newTotal})
+        }
     }
     
     const removeProduct = (cart, setCart, product) => {
-        if (!cart[product.name] || cart[product.name] - 1 === 0) {
-            const filteredObject = Object.entries(cart.products).filter(([property, value]) => {
-                return property !== product.name;
-            });
+        const foundProduct = cart.products.find(productCart => productCart.label === product.label)
         
-            setCart({
-                products: Object.fromEntries(filteredObject),
-                total: cart.total - product.price
-            })
-        } else {
-            setCart({
-                products: {
-                    ...cart.products,
-                    [product.name]: cart[product.name] - 1
-                },
-                total: cart.total - product.price
-            });
+        if (foundProduct) {
+            foundProduct.quantity -= 1
+            const newTotal = cart.total - foundProduct.price
+            const newCart = cart.products.filter(productCart => productCart.label !== product.label)
+            
+            if (foundProduct.quantity === 0) {
+                setCart({products: newCart, total: newTotal})
+            } else {
+                setCart({products: [...newCart, foundProduct], total: newTotal})
+            }
         }
     }
 
-    const getProductPrice = (product) => {
-        const foundProduct = products.find(prod => prod.name === product[0]);
-        return foundProduct.price;
-    }
+    const sendTransaction = async (cart) => {
+        if (cart.products.length > 0) {
+            const order = await addOrder(user, cart);
     
-    const sendTransaction = (cart) => {
-        fetch('http://localhost:3004/orders', {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${user.token}`,
-                ContentType: 'application/json'
-            },
-            body: JSON.stringify({
-                amount: cart.total,
-                currency: "EUR",
-                cart: cart.products,
-                billing: {
-                    "fullName": "Marcel Patoulachi",
-                    "address": "place de la tour Eiffel",
-                    "town": "Paris",
-                    "zip": "75001",
-                    "country": "France"
-                },
-                shipping: {
-                    "fullName": "Marcel Patoulachi",
-                    "address": "place de la tour Eiffel",
-                    "town": "Paris",
-                    "zip": "75001",
-                    "country": "France"
-                }
-            })
-        })
+            history.push('/orders');
+            const win = window.open(order.checkoutUrl, '_blank');
+            win.focus();
+        }
     }
-    
+
     return (
         <div className="container">
             <table>
@@ -101,7 +78,7 @@ export const Order = () => {
                 <tbody>
                     {products.map(product => (
                         <tr key={product.id}>
-                            <td>{product.name}</td>
+                            <td>{product.label}</td>
                             <td>{product.price} €</td>
                             <td>
                                 <span className="material-icons green-text" style={{cursor: 'pointer'}} onClick={() => addProduct(cart, setCart, product)}>add</span>
@@ -122,11 +99,11 @@ export const Order = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    { Object.entries(cart.products).map((product, index) => (
-                        <tr key={index}>
-                            <td>{product[0]}</td>
-                            <td>{product[1]}</td>
-                            <td>{getProductPrice(product)} €</td>
+                    { cart.products.map(product => (
+                        <tr key={product.id}>
+                            <td>{product.label}</td>
+                            <td>{product.quantity}</td>
+                            <td>{product.price}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -3,7 +3,7 @@ POST http://localhost:3004/login_check
 Content-Type: application/json
 
 {
-  "username":"fake2@email.fake",
+  "username":"test@test.com",
   "password": "test"
 }
 
@@ -12,7 +12,7 @@ POST http://localhost:3004/users
 Content-Type: application/json
 
 {
-  "username":"fake2@email.fake",
+  "username":"test@test.com",
   "password": "test",
   "firstname": "Marcel",
   "lastname": "Patulacci",

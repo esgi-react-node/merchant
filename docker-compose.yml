@@ -55,7 +55,6 @@ services:
     volumes:
       - "./client:/home/node/app"
     working_dir: "/home/node/app"
-    command: "npm start"
     depends_on:
       - merchant-api
     tty: true

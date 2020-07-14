@@ -7,8 +7,8 @@ const Address = require("../models/sequelize/Address");
 const PaymentService = require("../services/PaymentService");
 const router = express.Router();
 
-const confirmPaymentUrl = "http://google.fr/";
-const cancelOrderUrl = "http://youtube.com";
+const confirmPaymentUrl = "http://localhost:3002/validatedOrder";
+const cancelOrderUrl = "http://localhost:3002/canceledOrder";
 
 router.get("/", (req, res) => {
   const queryOptions = {
